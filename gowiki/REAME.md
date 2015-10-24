@@ -1,6 +1,17 @@
 # Writing Web Applications
 https://golang.org/doc/articles/wiki/
 
+## CLI
+
+```
+$ go run wiki.go
+
+$ go build wiki.go
+$ ./wiki
+
+$ go fmt wiki.go
+```
+
 ## imports
 fmt
 io/ioutil
