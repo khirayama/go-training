@@ -5,6 +5,7 @@ https://golang.org/doc/articles/wiki/
 fmt
 io/ioutil
 http -> net/http
+html/template
 
 ## methods
 
@@ -15,6 +16,7 @@ http -> net/http
 - ioutil.ReadFile
 - http.HandleFunc
 - http.ListenAndServer
+- template.Execte
 
 ## description
 - type
