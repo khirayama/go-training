@@ -44,8 +44,8 @@ html/template
 - []byte
 - *
 - &
-- :=
-- =
+- := // 定義 & 代入？
+- = // 代入
 - [1:] // ex) ```Path[1:]``` : Path内の1番目の文字から最後までの部分スライスを作成する
 - w, r // ex) ```func handler(w http.ResponseWriter, r *http.Request) {```
 
