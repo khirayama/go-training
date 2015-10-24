@@ -6,7 +6,6 @@ import (
 	"net/http"
 )
 
-// Data Structures
 type Page struct {
 	Title string
 	Body  []byte
@@ -26,18 +25,13 @@ func loadPage(title string) (*Page, error) {
 	return &Page{Title: title, Body: body}, nil
 }
 
-// func main() {
-// 	p1 := &Page{Title: "TestPage", Body: []byte("This is a sample Page.")}
-// 	p1.save()
-// 	// p2, _ := loadPage("TestPage") ?
-// 	p2 := loadPage("TestPage")
-// 	fmt.Println(string(p2.Body))
-// }
-
-// Using net/http to serve wiki page
 func viewHandler(w http.ResponseWriter, r *http.Request) {
 	title := r.URL.Path[len("/view/"):]
-	p, _ := loadPage(title)
+	p, err := loadPage(title)
+	if err != nil {
+		http.Redirect(w, r, "/edit/"+title, http.StatusFound)
+		return
+	}
 	renderTemplate(w, "view", p)
 }
 
