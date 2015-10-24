@@ -9,6 +9,7 @@ html/template
 
 ## methods
 
+- range
 - fmt.Printf
 - fmt.Println
 - fmt.Fprintf
@@ -23,6 +24,8 @@ html/template
 - http.URL
 - http.Request.FormValue
 - template.Execte
+- template.ExecteTemplate
+- template.Must
 
 ## description
 - type
