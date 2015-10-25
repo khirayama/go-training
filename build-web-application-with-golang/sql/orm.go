@@ -50,4 +50,12 @@ func main() {
 	orm.SetTable("userinfo").InsertBatch(addslice)
 
 	// UPDATE
+	saveone.Username = "Update Username"
+	saveone.Departname = "Update Departname"
+	saveone.Created = time.Now()
+	orm.Save(&saveone) //現在saveoneにはプライマリキーがあります。更新操作を行います。
+
+	t := make(map[string]interface{})
+	t["username"] = "astaxie"
+	orm.SetTable("userinfo").SetPK("uid").Where(2).Update(t)
 }
