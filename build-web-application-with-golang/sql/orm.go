@@ -21,6 +21,7 @@ func main() {
 		Created    time.Time
 	}
 
+	// INSERT
 	// standard
 	var saveone Userinfo
 	saveone.Username = "Test Add User"
@@ -47,4 +48,6 @@ func main() {
 	add2["created"] = "2012-12-02"
 	addslice = append(addslice, add, add2)
 	orm.SetTable("userinfo").InsertBatch(addslice)
+
+	// UPDATE
 }
