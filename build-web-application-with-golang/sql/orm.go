@@ -21,9 +21,10 @@ func main() {
 		Created    time.Time
 	}
 
+	var saveone Userinfo
+
 	// INSERT
 	// standard
-	var saveone Userinfo
 	saveone.Username = "Test Add User"
 	saveone.Departname = "Test Add Departname"
 	saveone.Created = time.Now()
@@ -58,4 +59,39 @@ func main() {
 	t := make(map[string]interface{})
 	t["username"] = "astaxie"
 	orm.SetTable("userinfo").SetPK("uid").Where(2).Update(t)
+
+	// Search
+	var user Userinfo
+	orm.Where("uid=?", 27).Find(&user)
+
+	var user2 Userinfo
+	orm.Where(3).Find(&user2)
+
+	var user3 Userinfo
+	orm.Where("name=?", "john").Find(&user3)
+
+	var user4 Userinfo
+	orm.Where("name=? and age < ?", "john", 88).Find(&user4)
+
+	var allusers []Userinfo
+	err = orm.Where("id > ?", "3").Limit(10, 20).FindAll(&allusers)
+
+	var tenusers []Userinfo
+	err = orm.Where("id > ?", "3").Limit(10).FindAll(&tenusers)
+
+	var everyone []Userinfo
+	err = orm.Where("uid desc, username asc").FindAll(&everyone)
+
+	// DELETE
+	orm.Delete(&saveone)
+
+	orm.DeleteAll(&allusers)
+
+	orm.SetTable("userinfo").Where("uid>?", 3).DeleteRow()
+
+	// RELATION
+	a, _ := orm.SetTable("userinfo").Join("LEFT", "userdeatail", "userinfo.uid=userdeatail.uid").Where("userinfo.uid=?", 1).Select("userinfo.uid,userinfo.username,userdeatail.profile").FindMap()
+
+	// GROUP BY / HAVING
+	a, _ = orm.SetTable("userinfo").GroupBy("username").Having("username='astaxie'").FindMap()
 }
