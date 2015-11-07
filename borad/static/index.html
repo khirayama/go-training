@@ -17,6 +17,8 @@ function fetchMessages(callback) {
 }
 
 function renderMessageList(messages) {
+  console.log(messages);
+  if (!messages) messages = [];
   var liHTMLString = messages.map(function (message) {
     return '<li>' + message.message + ' / ' + message.name + '</li>';
   });

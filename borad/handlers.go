@@ -8,34 +8,32 @@ import (
 )
 
 func MessageIndex(w http.ResponseWriter, r *http.Request) {
+	var messages Messages
+
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
-	if err := json.NewEncoder(w).Encode(messages); err != nil {
-		panic(err)
+
+	rows, _ := db.Query("SELECT name, message FROM message")
+
+	for rows.Next() {
+		var name string
+		var text string
+		rows.Scan(&name, &text)
+		message := Message{}
+		message.Name = name
+		message.Message = text
+		messages = append(messages, message)
 	}
+	json.NewEncoder(w).Encode(messages)
 }
 
 func MessageCreate(w http.ResponseWriter, r *http.Request) {
 	var message Message
-	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
-	if err != nil {
-		panic(err)
-	}
-	if err := r.Body.Close(); err != nil {
-		panic(err)
-	}
-	if err := json.Unmarshal(body, &message); err != nil {
-		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-		w.WriteHeader(422)
-		if err := json.NewEncoder(w).Encode(err); err != nil {
-			panic(err)
-		}
-	}
+	body, _ := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
 
-	m := RepoCreateMessage(message)
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusCreated)
-	if err := json.NewEncoder(w).Encode(m); err != nil {
-		panic(err)
-	}
+	json.Unmarshal(body, &message)
+
+	stmt, _ := db.Prepare("INSERT INTO message(name, message) values(?,?)")
+	res, _ := stmt.Exec(message.Name, message.Message)
+	res.LastInsertId()
 }
