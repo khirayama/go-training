@@ -1,0 +1,50 @@
+<html>
+  <head>
+  </head>
+  <body>
+    <h1>Board</h1>
+    <div id="message-create-btn">Create message</div>
+    <ul id="message-list"></ul>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script>
+function fetchMessages(callback) {
+  $.ajax({
+    type: 'GET',
+    url: '/messages'
+  }).done(function (res) {
+    callback(res);
+  });
+}
+
+function renderMessageList(messages) {
+  var liHTMLString = messages.map(function (message) {
+    return '<li>' + message.message + ' / ' + message.name + '</li>';
+  });
+  $('#message-list').html(liHTMLString);
+}
+
+function createMessage() {
+  var data = {
+    name: 'khirayama',
+    message: 'message'
+  };
+  $.ajax({
+    type: 'POST',
+    url: '/messages',
+    contentType: 'application/json',
+    dataType: 'json',
+    data: JSON.stringify(data)
+  });
+}
+
+$(function () {
+  fetchMessages(renderMessageList);
+  // create message
+  $('#message-create-btn').on('click', function () {
+    createMessage();
+    fetchMessages(renderMessageList);
+  });
+});
+    </script>
+  </body>
+</html>
