@@ -24,4 +24,10 @@ var routes = Routes{
 		"/messages",
 		MessageCreate,
 	},
+	Route{
+		"MessageDelete",
+		"DELETE",
+		"/messages/{messageId}",
+		MessageDelete,
+	},
 }

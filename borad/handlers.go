@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"github.com/gorilla/mux"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -36,6 +37,12 @@ func MessageCreate(w http.ResponseWriter, r *http.Request) {
 	json.Unmarshal(body, &message)
 
 	stmt, _ := db.Prepare("INSERT INTO message(name, text) values(?, ?)")
-	res, _ := stmt.Exec(message.Name, message.Text)
-	res.LastInsertId()
+	stmt.Exec(message.Name, message.Text)
+}
+
+func MessageDelete(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	messageId := vars["messageId"]
+	stmt, _ := db.Prepare("delete from message where id=?")
+	stmt.Exec(messageId)
 }

@@ -7,24 +7,37 @@
     <ul id="message-list"></ul>
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script>
+function renderMessageList(messages) {
+  if (!messages) messages = [];
+  var liHTMLString = messages.map(function (message) {
+    return '<li>' + message.text + ' / ' + message.name + '<div class="message-delete-btn" data-id=" '+ message.id + '">[DELETE]</div></li>';
+  });
+  $('#message-list').html(liHTMLString);
+  setMessageDeleteBtnEventHandler();
+}
+
+function setMessageDeleteBtnEventHandler() {
+  $('.message-delete-btn').on('click', function (event) {
+    var id = $(event.target).data('id');
+    deleteMessage(id, updateMessageList);
+  });
+}
+
+function updateMessageList() {
+  fetchMessages(renderMessageList);
+}
+
+// CRUD
 function fetchMessages(callback) {
   $.ajax({
     type: 'GET',
     url: '/messages'
   }).done(function (res) {
-    callback(res);
+    if (callback) callback(res);
   });
 }
 
-function renderMessageList(messages) {
-  if (!messages) messages = [];
-  var liHTMLString = messages.map(function (message) {
-    return '<li>' + message.text + ' / ' + message.name + '</li>';
-  });
-  $('#message-list').html(liHTMLString);
-}
-
-function createMessage() {
+function createMessage(callback) {
   var data = {
     name: 'khirayama',
     text: 'message'
@@ -33,17 +46,26 @@ function createMessage() {
     type: 'POST',
     url: '/messages',
     contentType: 'application/json',
-    dataType: 'json',
     data: JSON.stringify(data)
+  }).done(function (res) {
+    if (callback) callback(res);
+  });
+}
+
+function deleteMessage(id, callback) {
+  $.ajax({
+    type: 'DELETE',
+    url: '/messages/' + id,
+  }).done(function (res) {
+    if (callback) callback(res);
   });
 }
 
 $(function () {
-  fetchMessages(renderMessageList);
+  updateMessageList();
   // create message
   $('#message-create-btn').on('click', function () {
-    createMessage();
-    fetchMessages(renderMessageList);
+    createMessage(updateMessageList);
   });
 });
     </script>
