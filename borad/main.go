@@ -10,6 +10,7 @@ import (
 var db, err = sql.Open("sqlite3", "./db/board.db")
 
 func main() {
+	db.Exec("create table message(id integer primary key autoincrement, name text, text text)")
 	router := NewRouter()
 
 	log.Fatal(http.ListenAndServe(":8080", router))
