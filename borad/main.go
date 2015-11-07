@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-var db, err = sql.Open("sqlite3", "./board.db")
+var db, err = sql.Open("sqlite3", "./db/board.db")
 
 func main() {
 	router := NewRouter()
