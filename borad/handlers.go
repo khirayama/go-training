@@ -13,15 +13,17 @@ func MessageIndex(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 
-	rows, _ := db.Query("SELECT name, message FROM message")
+	rows, _ := db.Query("SELECT id, name, text FROM message")
 
 	for rows.Next() {
+		var id int
 		var name string
 		var text string
-		rows.Scan(&name, &text)
+		rows.Scan(&id, &name, &text)
 		message := Message{}
+		message.Id = id
 		message.Name = name
-		message.Message = text
+		message.Text = text
 		messages = append(messages, message)
 	}
 	json.NewEncoder(w).Encode(messages)
@@ -33,7 +35,7 @@ func MessageCreate(w http.ResponseWriter, r *http.Request) {
 
 	json.Unmarshal(body, &message)
 
-	stmt, _ := db.Prepare("INSERT INTO message(name, message) values(?,?)")
-	res, _ := stmt.Exec(message.Name, message.Message)
+	stmt, _ := db.Prepare("INSERT INTO message(name, text) values(?, ?)")
+	res, _ := stmt.Exec(message.Name, message.Text)
 	res.LastInsertId()
 }
