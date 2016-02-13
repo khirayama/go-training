@@ -42,9 +42,11 @@ const (
 	messageBufferSize = 256
 )
 
+// HTTP接続をアップグレードする
 var upgrader = &websocket.Upgrader{ReadBufferSize: socketBufferSize, WriteBufferSize: socketBufferSize}
 
 func (r *room) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+	// UpgradeでWebSocketコネクションを取得する
 	socket, err := upgrader.Upgrade(w, req, nil)
 	if err != nil {
 		log.Fatal("ServeHTTP:", err)
@@ -56,9 +58,10 @@ func (r *room) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	}
 	r.join <- client
 	defer func() { r.leave <- client }()
-	go client.write()
+	go client.write() // goroutineとして呼び出される
 	client.read()
 }
 
 // structの第三引数
 // <-
+// websocketとmakeはどこから
