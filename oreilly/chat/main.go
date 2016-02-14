@@ -29,10 +29,15 @@ func main() {
 	var addr = flag.String("addr", ":8080", "アプリケーションのアドレス")
 	flag.Parse() // フラグを解釈します
 
+	// staticファイルを配布する場合
+	// http.Handle("/assets/", http.StripPrefix("/assets", http.FileServer(http.Dir("/assets/"))))
+
 	r := newRoom()
 	r.tracer = trace.New(os.Stdout)
 	// ルート
-	http.Handle("/", &templateHandler{filename: "chat.html"})
+	http.Handle("/login", &templateHandler{filename: "login.html"})
+	http.Handle("/chat", MustAuth(&templateHandler{filename: "chat.html"}))
+
 	http.Handle("/room", r)
 
 	// チャットルームを開始する
