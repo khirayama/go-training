@@ -37,7 +37,7 @@ func main() {
 	// ルート
 	http.Handle("/login", &templateHandler{filename: "login.html"})
 	http.Handle("/chat", MustAuth(&templateHandler{filename: "chat.html"}))
-
+	http.HandleFunc("/auth/", loginHandler)
 	http.Handle("/room", r)
 
 	// チャットルームを開始する
