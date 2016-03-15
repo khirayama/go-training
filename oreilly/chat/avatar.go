@@ -1,7 +1,10 @@
 package main
 
 import (
+	"crypto/md5"
 	"errors"
+	"fmt"
+	"io"
 )
 
 var ErrNoAvatarURL = errors.New("chat: アバターのURLが取得できません。")
