@@ -48,7 +48,7 @@ func main() {
 	// staticファイルを配布する場合
 	// http.Handle("/assets/", http.StripPrefix("/assets", http.FileServer(http.Dir("/assets/"))))
 
-	r := newRoom(UseAuthAvatar)
+	r := newRoom(UseGravatar)
 	r.tracer = trace.New(os.Stdout)
 	// ルート
 	http.Handle("/login", &templateHandler{filename: "login.html"})
