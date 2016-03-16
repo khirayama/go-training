@@ -33,7 +33,7 @@ func (_ AuthAvatar) GetAvatarURL(c *client) (string, error) {
 
 type GravatarAvatar struct{}
 
-var UseGravatarAvatar GravatarAvatar
+var UseGravatar GravatarAvatar
 
 func (_ GravatarAvatar) GetAvatarURL(c *client) (string, error) {
 	if email, ok := c.userData["email"]; ok {
