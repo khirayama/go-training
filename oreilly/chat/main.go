@@ -66,7 +66,7 @@ func main() {
 	})
 	http.Handle("/room", r)
 	http.Handle("/upload", &templateHandler{filename: "upload.html"})
-	http.Handle("/uploader", uploaderHandler)
+	http.HandleFunc("/uploader", uploaderHandler)
 
 	// チャットルームを開始する
 	go r.run()
