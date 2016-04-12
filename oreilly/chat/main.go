@@ -1,5 +1,19 @@
 package main
 
+import gomniauthcommon "github.com/stretchr/gomniauthcommon/common"
+
+type ChatUser interface {
+	UniqueID() string
+	AvatarURL() string
+}
+type chatUser struct {
+	gomniauthcommon.User
+	uniqueID string
+}
+func (u chatUser) UniqueID() string {
+	return u.uniqueID
+}
+
 import (
 	"flag"
 	"log"
@@ -15,6 +29,7 @@ import (
 
 	"../trace"
 )
+
 
 type templateHandler struct {
 	once     sync.Once
