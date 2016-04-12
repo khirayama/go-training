@@ -46,7 +46,9 @@ func main() {
 	)
 
 	// staticファイルを配布する場合
-	// http.Handle("/assets/", http.StripPrefix("/assets", http.FileServer(http.Dir("/assets/"))))
+	// http.Handle("/assets/",
+	// 	http.StripPrefix("/assets",
+	// 		http.FileServer(http.Dir("/assets/"))))
 
 	r := newRoom(UseGravatar)
 	r.tracer = trace.New(os.Stdout)
@@ -68,7 +70,9 @@ func main() {
 	http.Handle("/upload", &templateHandler{filename: "upload.html"})
 	http.HandleFunc("/uploader", uploaderHandler)
 	// TODO: p77を再読
-	http.Handle("/avatars/", http.StripPrefix("/avatars/", http.FileServer(http.Dir("./avatars"))))
+	http.Handle("/avatars/",
+		http.StripPrefix("/avatars/",
+			http.FileServer(http.Dir("./avatars/"))))
 
 	// チャットルームを開始する
 	go r.run()
