@@ -50,7 +50,7 @@ func main() {
 	// 	http.StripPrefix("/assets",
 	// 		http.FileServer(http.Dir("/assets/"))))
 
-	r := newRoom(UseGravatar)
+	r := newRoom(UseFileSystemAvatar)
 	r.tracer = trace.New(os.Stdout)
 	// ルート
 	http.Handle("/login", &templateHandler{filename: "login.html"})
