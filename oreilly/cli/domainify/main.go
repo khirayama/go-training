@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"math/rand"
 	"os"
@@ -23,7 +24,7 @@ func main() {
 			if unicode.IsSpace(r) {
 				r = '-'
 			}
-			if !strings.cotainsRune(allowedChars, r) {
+			if !strings.ContainsRune(allowedChars, r) {
 				continue
 			}
 			newText = append(newText, r)
