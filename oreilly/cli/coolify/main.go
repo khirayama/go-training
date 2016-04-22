@@ -2,9 +2,20 @@ package main
 
 import (
 	"bufio"
+	"fmt"
+	"math/rand"
 	"os"
 	"time"
 )
+
+const (
+	duplicateVowel bool = true
+	removeVowel    bool = false
+)
+
+func randBool() bool {
+	return rand.Intn(2) == 0
+}
 
 func main() {
 	rand.Seed(time.Now().UTC().UnixNano())
@@ -21,6 +32,15 @@ func main() {
 					}
 				}
 			}
+			if vI >= 0 {
+				switch randBool() {
+				case duplicateVowel:
+					word = append(word[:vI+1], word[vI:]...)
+				case removeVowel:
+					word = append(word[:vI], word[vI+1:]...)
+				}
+			}
 		}
+		fmt.Println(string(word))
 	}
 }
