@@ -1,6 +1,7 @@
 package main
 
 import (
+	"io"
 	"net"
 )
 
@@ -18,3 +19,5 @@ func dial(netw, addr string) (net.Conn, error) {
 	conn = netc
 	return netc, nil
 }
+
+var reader io.ReadCloser
