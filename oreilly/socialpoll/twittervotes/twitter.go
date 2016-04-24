@@ -21,3 +21,12 @@ func dial(netw, addr string) (net.Conn, error) {
 }
 
 var reader io.ReadCloser
+
+func closeConn() {
+	if conn != nil {
+		conn.Close()
+	}
+	if reader != nil {
+		reader.Close()
+	}
+}
