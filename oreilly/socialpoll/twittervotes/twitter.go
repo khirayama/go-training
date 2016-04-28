@@ -2,8 +2,8 @@ package main
 
 import (
 	"io"
-	"net"
 	"log"
+	"net"
 
 	"github.com/joeshaw/envdecode"
 )
@@ -55,8 +55,8 @@ func setupTwitterAuth() {
 	}
 	authClient = &oauth.Client{
 		Credentials: oauth.Credentials{
-			Token: ts.ConsumertKey,
+			Token:  ts.ConsumertKey,
 			Secret: ts.ConsumerSecret,
-		}
+		},
 	}
 }
