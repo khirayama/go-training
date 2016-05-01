@@ -4,6 +4,11 @@ import (
 	"io"
 	"log"
 	"net"
+	"net/http"
+	"net/url"
+	"strconv"
+	"sync"
+	"time"
 
 	"github.com/garyburd/go-oauth/oauth"
 	"github.com/joeshaw/envdecode"
@@ -16,7 +21,7 @@ func dial(netw, addr string) (net.Conn, error) {
 		conn.Close()
 		conn = nil
 	}
-	netc, err := net.DailTimeout(netw, addr, 5*time.Second)
+	netc, err := net.DialTimeout(netw, addr, 5*time.Second)
 	if err != nil {
 		return nil, err
 	}
@@ -78,7 +83,7 @@ func makeRequest(req *http.Request, params url.Values) (*http.Response, error) {
 	})
 	formEnc := params.Encode()
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-	req.Header.Set("Content-Length", strconv.Itoa(formEnc))
+	req.Header.Set("Content-Length", strconv.Itoa(len(formEnc)))
 	req.Header.Set("Authorization",
 		authClient.AuthorizationHeader(creds, "POST", req.URL, params))
 	return httpClient.Do(req)
